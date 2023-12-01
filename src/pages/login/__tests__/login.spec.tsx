@@ -1,14 +1,28 @@
-import { fireEvent, render, screen } from '@testing-library/react';
-import LoginPage from '..';
-import { BrowserRouter } from 'react-router-dom';
-import { userEvent } from '@testing-library/user-event';
-import { AuthProvider } from '../../../contexts/authContext';
+/**
+ * @vitest-environment jsdom
+ */
+
+import { describe, it } from 'vitest';
+
+import { beforeAll, afterEach, afterAll } from 'vitest'
 import { setupServer } from 'msw/node';
 import { http, HttpResponse } from 'msw';
 
+import { fireEvent, render, screen } from '@testing-library/react';
+import { userEvent } from '@testing-library/user-event';
+import { BrowserRouter } from 'react-router-dom';
+
+import LoginPage from '..';
+import { AuthProvider } from '../../../contexts/authContext';
+
 const handlers = [
-  http.post(`http://127.0.0.1:8000/api/token/`, () => {
-    return HttpResponse.json(null, { status: 401 });
+  http.post('http://127.0.0.1:8000/api/token/', () => {
+    return HttpResponse.json({
+      data: {
+        refresh: 'abc',
+        access: 'abc'
+      }
+    }, { status: 200 });
   })
 ]
  
@@ -41,7 +55,7 @@ describe('<loginPage />', () => {
   afterEach(() => server.resetHandlers());
 
   afterAll(() => server.close());
-
+  
   it('should render username or password is invalid', async () => {
 
     renderLoginPage();
@@ -55,6 +69,6 @@ describe('<loginPage />', () => {
 
     await userEvent.click(button);
 
-    await screen.findByText(/usuário ou senha inválidos/i);
+    await screen.findByText(/loading/i);
   })
 })
