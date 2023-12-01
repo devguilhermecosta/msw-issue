@@ -1,0 +1,22 @@
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+}
+
+:root {
+  --primary-std: #040C0C;
+  --primary-l1: #282827;
+  --primary-g1: #040404;
+  --secondaire-std: #F4F4F4;
+  --secondaire-l1: #F4FFE6;
+  --secondaire-g1: #F4E6FF;
+  --contrast-std: #124C81;
+  --contrast-l1: #125A73;
+  --contrast-g1: #123C91;
+  --gray-std: #3b3a3a76;
+}
